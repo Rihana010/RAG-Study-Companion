@@ -771,7 +771,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const data =
                 await fetchJson(
-                    "/api/youtube",
+                    "/api/youtube/ingest",
                     {
                         method: "POST",
                         body: JSON.stringify({
