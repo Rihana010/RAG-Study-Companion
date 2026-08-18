@@ -1,0 +1,11 @@
+flask>=3.0.0
+python-dotenv>=1.0.0
+pymupdf>=1.23.0
+sentence-transformers>=2.2.2
+chromadb>=0.4.22
+groq>=0.4.0
+youtube-transcript-api>=0.6.2
+pytesseract>=0.3.10
+pillow>=10.0.0
+requests>=2.31.0
+pytest>=8.0.0

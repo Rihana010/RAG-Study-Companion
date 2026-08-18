@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f7f7f5">
+
+    <title>Study Companion</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="app-container">
+
+        <!-- =========================================================
+         SIDEBAR
+    ========================================================== -->
+
+        <aside class="sidebar" id="sidebar">
+
+            <div class="sidebar-header">
+                <div class="brand">
+                    <span class="brand-mark">S</span>
+                    <span class="brand-name">Study Companion</span>
+                </div>
+            </div>
+
+
+            <!-- Add sources -->
+
+            <div class="sidebar-section add-section">
+
+                <div class="section-header">
+                    <div>
+                        <p class="eyebrow">Sources</p>
+                        <h2 class="section-heading">Add material</h2>
+                    </div>
+                </div>
+
+
+                <!-- PDF upload -->
+
+                <div class="upload-box" id="upload-box">
+
+                    <input type="file" id="pdf-input" accept=".pdf" class="file-input" hidden>
+
+                    <div class="upload-content">
+
+                        <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.7" aria-hidden="true">
+                            <path d="M12 16V4"></path>
+                            <path d="m7 9 5-5 5 5"></path>
+                            <path d="M5 20h14"></path>
+                        </svg>
+
+                        <p class="upload-label">Add a PDF</p>
+
+                        <span class="upload-hint">
+                            Drop here or
+                            <button type="button" class="btn-link" id="browse-btn">
+                                browse files
+                            </button>
+                        </span>
+
+                    </div>
+
+
+                    <div class="upload-progress hidden" id="upload-progress">
+
+                        <div class="progress-bar-track">
+                            <div class="progress-bar-fill" id="progress-bar-fill"></div>
+                        </div>
+
+                        <span class="progress-status" id="progress-status">
+                            Processing…
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- YouTube -->
+
+                <div class="youtube-input-group">
+
+                    <label class="field-label" for="yt-url-input">
+                        YouTube lecture
+                    </label>
+
+                    <div class="inline-field">
+
+                        <input type="url" id="yt-url-input" class="form-input" placeholder="Paste a video URL"
+                            aria-label="YouTube lecture URL">
+
+                        <button type="button" id="yt-add-btn" class="btn btn-secondary">
+                            Add
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Library -->
+
+            <div class="sidebar-section library-section">
+
+                <div class="section-header">
+
+                    <div>
+                        <p class="eyebrow">Library</p>
+                        <h2 class="section-heading">Study material</h2>
+                    </div>
+
+                    <span class="badge" id="doc-count">
+                        0 sources
+                    </span>
+
+                </div>
+
+
+                <ul class="doc-list" id="doc-list">
+
+                    <li class="doc-item empty-notice">
+                        No study material yet.
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <!-- Status -->
+
+            <div class="sidebar-footer">
+
+                <span class="status-indicator online"></span>
+
+                <span class="status-text" id="status-text">
+                    Ready
+                </span>
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- =========================================================
+         MAIN WORKSPACE
+    ========================================================== -->
+
+        <main class="workspace">
+
+            <!-- Header -->
+
+            <header class="workspace-header">
+
+                <div class="workspace-title">
+
+                    <p class="eyebrow">
+                        Workspace
+                    </p>
+
+                    <h1>
+                        Study session
+                    </h1>
+
+                </div>
+
+
+                <!-- Navigation -->
+
+                <nav class="tab-nav" aria-label="Study tools">
+
+                    <button type="button" class="tab-btn active" data-tab="chat-view">
+                        Chat
+                    </button>
+
+                    <button type="button" class="tab-btn" data-tab="quiz-view">
+                        Quiz
+                    </button>
+
+                    <button type="button" class="tab-btn" data-tab="flashcards-view">
+                        Flashcards
+                    </button>
+
+                    <button type="button" class="tab-btn" data-tab="summary-view">
+                        Summary
+                    </button>
+
+                </nav>
+
+            </header>
+
+
+
+            <!-- =====================================================
+             WORKSPACE CONTENT
+        ====================================================== -->
+
+            <div class="workspace-content">
+
+
+                <!-- =================================================
+                 CHAT
+            ================================================== -->
+
+                <section class="tab-pane active" id="chat-view">
+
+                    <div class="chat-container">
+
+
+                        <div class="chat-intro">
+
+                            <p class="eyebrow">
+                                Ask your material
+                            </p>
+
+                            <h2>
+                                What are you studying?
+                            </h2>
+
+                            <p>
+                                Ask questions about the sources in your
+                                library. Answers are grounded in those
+                                sources and include citations when available.
+                            </p>
+
+                        </div>
+
+
+
+                        <!-- Messages -->
+
+                        <div class="chat-messages" id="chat-messages">
+
+                            <div class="message assistant-message">
+
+                                <div class="message-header">
+
+                                    <span class="sender-name">
+                                        Study Companion
+                                    </span>
+
+                                    <span class="timestamp">
+                                        Ready
+                                    </span>
+
+                                </div>
+
+                                <div class="message-body">
+
+                                    Add a PDF or YouTube lecture,
+                                    then ask a question about your
+                                    material.
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- Chat input -->
+
+                        <div class="chat-input-wrapper">
+
+                            <form id="chat-form" class="chat-form">
+
+                                <textarea id="chat-input" class="chat-textarea"
+                                    placeholder="Ask a question about your study material…" rows="1"
+                                    required></textarea>
+
+
+                                <button type="submit" id="send-btn" class="btn btn-primary">
+
+                                    Send
+
+                                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="1.8" aria-hidden="true">
+                                        <path d="M22 2 11 13"></path>
+                                        <path d="m22 2-7 20-4-9-9-4 20-7Z"></path>
+                                    </svg>
+
+                                </button>
+
+                            </form>
+
+
+                            <span class="input-note">
+                                Grounded in your study sources ·
+                                Shift + Enter for a new line
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- =================================================
+                 QUIZ
+            ================================================== -->
+
+                <section class="tab-pane" id="quiz-view">
+
+                    <div class="tool-panel">
+
+                        <div class="tool-heading">
+
+                            <div>
+
+                                <p class="eyebrow">
+                                    Practice
+                                </p>
+
+                                <h2>
+                                    Quiz
+                                </h2>
+
+                                <p class="tool-desc">
+                                    Turn your study material into a
+                                    focused self-test.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="tool-controls">
+
+                            <div class="field">
+
+                                <label for="quiz-topic">
+                                    Topic or module
+                                </label>
+
+                                <input type="text" id="quiz-topic" class="form-input" placeholder="Optional">
+
+                            </div>
+
+
+                            <div class="field count-field">
+
+                                <label for="quiz-count">
+                                    Questions
+                                </label>
+
+                                <input type="number" id="quiz-count" class="form-input" value="5" min="1" max="20">
+
+                            </div>
+
+
+                            <button type="button" id="generate-quiz-btn" class="btn btn-primary">
+                                Generate quiz
+                            </button>
+
+                        </div>
+
+
+                        <div class="tool-body" id="quiz-container">
+
+                            <div class="empty-state">
+
+                                <strong>
+                                    No quiz yet.
+                                </strong>
+
+                                <span>
+                                    Choose a topic if needed,
+                                    then generate a quiz from
+                                    your library.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- =================================================
+                 FLASHCARDS
+            ================================================== -->
+
+                <section class="tab-pane" id="flashcards-view">
+
+                    <div class="tool-panel">
+
+                        <div class="tool-heading">
+
+                            <div>
+
+                                <p class="eyebrow">
+                                    Review
+                                </p>
+
+                                <h2>
+                                    Flashcards
+                                </h2>
+
+                                <p class="tool-desc">
+                                    Build a compact set of cards
+                                    for active recall.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="tool-controls">
+
+                            <div class="field">
+
+                                <label for="flashcards-topic">
+                                    Topic or chapter
+                                </label>
+
+                                <input type="text" id="flashcards-topic" class="form-input" placeholder="Optional">
+
+                            </div>
+
+
+                            <div class="field count-field">
+
+                                <label for="flashcards-count">
+                                    Cards
+                                </label>
+
+                                <input type="number" id="flashcards-count" class="form-input" value="10" min="1"
+                                    max="30">
+
+                            </div>
+
+
+                            <button type="button" id="generate-flashcards-btn" class="btn btn-primary">
+                                Generate cards
+                            </button>
+
+                        </div>
+
+
+                        <div class="tool-body" id="flashcards-container">
+
+                            <div class="empty-state">
+
+                                <strong>
+                                    No flashcards yet.
+                                </strong>
+
+                                <span>
+                                    Generate a set from the
+                                    material in your library.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- =================================================
+                 SUMMARY
+            ================================================== -->
+
+                <section class="tab-pane" id="summary-view">
+
+                    <div class="tool-panel">
+
+                        <div class="tool-heading">
+
+                            <div>
+
+                                <p class="eyebrow">
+                                    Review
+                                </p>
+
+                                <h2>
+                                    Summary
+                                </h2>
+
+                                <p class="tool-desc">
+                                    Condense a topic or document
+                                    into useful study notes.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="tool-controls">
+
+                            <div class="field grow-field">
+
+                                <label for="summary-topic">
+                                    Topic or document
+                                </label>
+
+                                <input type="text" id="summary-topic" class="form-input" placeholder="Optional">
+
+                            </div>
+
+
+                            <button type="button" id="generate-summary-btn" class="btn btn-primary">
+                                Generate summary
+                            </button>
+
+                        </div>
+
+
+                        <div class="tool-body" id="summary-container">
+
+                            <div class="empty-state">
+
+                                <strong>
+                                    No summary yet.
+                                </strong>
+
+                                <span>
+                                    Generate a grounded summary
+                                    from your study material.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+    <!-- Frontend JavaScript -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+</body>
+
+</html>
