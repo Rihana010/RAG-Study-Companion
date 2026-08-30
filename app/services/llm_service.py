@@ -116,9 +116,9 @@ class LLMService:
             }
             
         except Exception as e:
-            logger.error(f"Groq API Error: {str(e)}")
+            logger.exception("Groq API request failed")
             return {
-                "reply": f"An error occurred while contacting the AI service: {str(e)}",
+                "reply": "An error occurred while contacting the AI service. Please try again.",
                 "sources": [],
                 "grounded": False
             }
