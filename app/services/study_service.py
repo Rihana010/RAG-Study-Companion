@@ -450,7 +450,7 @@ STUDY MATERIAL:
 
             return {
                 "status": "error",
-                "message": str(e)
+                "message": "Quiz generation failed due to an internal error. Please try again."
             }
 
     # ============================================================
@@ -614,7 +614,7 @@ STUDY MATERIAL:
 
             return {
                 "status": "error",
-                "message": str(e)
+                "message": "Flashcard generation failed due to an internal error. Please try again."
             }
 
     # ============================================================
@@ -786,5 +786,5 @@ STUDY MATERIAL:
 
             return {
                 "status": "error",
-                "message": str(e)
+                "message": "Summary generation failed due to an internal error. Please try again."
             }

@@ -48,6 +48,7 @@ class VectorStore:
                 "page": int(chunk.get("page", 1)),
                 "chunk_index": int(chunk.get("chunk_index", 0)),
                 "content_type": str(chunk.get("content_type", "text")),
+                "source_type": str(chunk.get("source_type", chunk.get("content_type", "text"))),
                 "ocr": bool(chunk.get("ocr", False))
             }
             if "video_url" in chunk:
@@ -109,12 +110,13 @@ class VectorStore:
 
         for meta in all_metas:
             source = meta.get("source", "Unknown")
-            content_type = meta.get("content_type", "text")
+            source_type = meta.get("source_type") or meta.get("content_type", "text")
             
             if source not in source_counts:
                 source_counts[source] = {
                     "source": source,
-                    "content_type": content_type,
+                    "source_type": source_type,
+                    "content_type": source_type,
                     "chunks": 0,
                     "video_title": meta.get("video_title", None),
                     "video_url": meta.get("video_url", None)

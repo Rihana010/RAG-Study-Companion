@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from app.services.youtube_service import YouTubeService
 from app.services.embedding_service import EmbeddingService
 from app.services.vector_store import VectorStore
+from app.utils.error_responses import bad_request, internal_error, safe_value_error_message
 
 youtube_bp = Blueprint('youtube', __name__)
 
@@ -44,6 +45,11 @@ def ingest_youtube():
         }), 200
 
     except ValueError as ve:
-        return jsonify({'status': 'error', 'message': str(ve)}), 400
+        return bad_request(
+            safe_value_error_message(
+                str(ve),
+                "Could not retrieve transcript for this YouTube video."
+            )
+        )
     except Exception as e:
-        return jsonify({'status': 'error', 'message': f"YouTube processing failed: {str(e)}"}), 500
+        return internal_error("processing the YouTube video", e)

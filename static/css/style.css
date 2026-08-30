@@ -324,6 +324,30 @@ textarea:focus-visible {
     background: var(--success);
 }
 
+.status-indicator.online {
+    background: var(--success);
+}
+
+.status-indicator.busy {
+    background: #c78f2f;
+    animation: statusPulse 1s ease-in-out infinite;
+}
+
+.status-indicator.error {
+    background: var(--danger);
+}
+
+@keyframes statusPulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: .5;
+        transform: scale(1.15);
+    }
+}
+
 .workspace {
     min-width: 0;
     flex: 1;

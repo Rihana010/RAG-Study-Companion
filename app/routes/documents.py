@@ -7,6 +7,7 @@ from app.services.pdf_service import PDFService
 from app.services.chunking_service import ChunkingService
 from app.services.embedding_service import EmbeddingService
 from app.services.vector_store import VectorStore
+from app.utils.error_responses import internal_error
 
 documents_bp = Blueprint('documents', __name__)
 
@@ -24,7 +25,7 @@ def list_documents():
             'documents': sources
         })
     except Exception as e:
-        return jsonify({'status': 'error', 'message': str(e)}), 500
+        return internal_error("loading your documents", e)
 
 @documents_bp.route('/upload', methods=['POST'])
 def upload_document():
@@ -86,7 +87,7 @@ def upload_document():
         }), 200
 
     except Exception as e:
-        return jsonify({'status': 'error', 'message': f'Document processing failed: {str(e)}'}), 500
+        return internal_error("processing your document", e)
 
 @documents_bp.route('/<path:filename>', methods=['DELETE'])
 def delete_document(filename: str):
@@ -109,4 +110,4 @@ def delete_document(filename: str):
             'message': f"Deleted {deleted_count} chunks for document '{filename}'."
         })
     except Exception as e:
-        return jsonify({'status': 'error', 'message': str(e)}), 500
+        return internal_error("deleting your document", e)

@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 from app.services.agent_service import AgentService
+from app.utils.error_responses import bad_request, internal_error
 
 chat_bp = Blueprint('chat', __name__)
 
@@ -18,10 +19,15 @@ def send_message():
     """
     data = request.get_json() or {}
     message = data.get('message', '').strip()
-    history = data.get('history', [])
+    history = data.get('history')
+    if history is None:
+        history = data.get('conversation_history', [])
+
+    if not isinstance(history, list):
+        return bad_request("Conversation history must be a list of messages.")
 
     if not message:
-        return jsonify({'status': 'error', 'message': 'Message text is required.'}), 400
+        return bad_request('Message text is required.')
 
     try:
         agent = AgentService()
@@ -38,7 +44,4 @@ def send_message():
         }), 200
 
     except Exception as e:
-        return jsonify({
-            'status': 'error',
-            'message': f"An error occurred while processing your request: {str(e)}"
-        }), 500
+        return internal_error("processing your request", e)
