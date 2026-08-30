@@ -47,7 +47,7 @@ def test_study_flashcards_count_below_min_returns_400(client):
     data = response.get_json()
     assert response.status_code == 400
     assert data["status"] == "error"
-    assert "at least 1" in data["message"]
+    assert data["message"] == "'count' must be an integer between 1 and 30."
 
 
 def test_documents_list_errors_are_sanitized(client, monkeypatch):

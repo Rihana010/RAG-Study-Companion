@@ -17,8 +17,8 @@ def generate_quiz():
             min_value=1,
             max_value=20
         )
-    except ValueError as exc:
-        return bad_request(str(exc))
+    except ValueError:
+        return bad_request("'count' must be an integer between 1 and 20.")
     
     study_service = StudyService()
     result = study_service.generate_quiz(topic=topic, count=count)
@@ -39,8 +39,8 @@ def generate_flashcards():
             min_value=1,
             max_value=30
         )
-    except ValueError as exc:
-        return bad_request(str(exc))
+    except ValueError:
+        return bad_request("'count' must be an integer between 1 and 30.")
 
     study_service = StudyService()
     result = study_service.generate_flashcards(topic=topic, count=count)

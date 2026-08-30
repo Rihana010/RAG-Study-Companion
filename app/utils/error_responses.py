@@ -49,17 +49,19 @@ def parse_positive_int(
 
 
 def safe_value_error_message(raw_message: str, fallback: str) -> str:
-    allowed_prefixes = (
-        "Invalid YouTube URL",
-        "Subtitles/transcripts are disabled",
-        "No usable English transcript found",
-        "Transcript was empty",
-        "Transcript contained no usable text",
-        "Transcript resulted in no usable text"
-    )
+    normalized = (raw_message or "").strip()
 
-    raw_message = (raw_message or "").strip()
-    if raw_message.startswith(allowed_prefixes):
-        return raw_message
+    if normalized.startswith("Invalid YouTube URL"):
+        return "Invalid YouTube URL. Please provide a valid YouTube link."
+    if normalized.startswith("Subtitles/transcripts are disabled"):
+        return "Transcripts are disabled for this YouTube video."
+    if normalized.startswith("No usable English transcript found"):
+        return "No usable English transcript is available for this video."
+    if normalized.startswith("Transcript was empty"):
+        return "The transcript was empty for this video."
+    if normalized.startswith("Transcript contained no usable text"):
+        return "The transcript contained no usable text."
+    if normalized.startswith("Transcript resulted in no usable text"):
+        return "Transcript resulted in no usable text."
 
     return fallback
